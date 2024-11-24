@@ -37,5 +37,30 @@ app.MapPost("/pizza", async (PizzaDb db, PizzaEhod pizza) =>
     return Results.Created($"/pizza/{pizza.IdEhod}", pizza);
 });
 
+app.MapGet("/pizza/{id}", async (PizzaDb db, int id) =>
+{
+    var pizza = await db.Pizzas.FindAsync(id);
+    if (pizza is null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(pizza);
+});
+
+
+app.MapPut("/pizza/{id}", async (PizzaDb db, PizzaEhod updatepizza, int id) =>
+{
+    var pizza = await db.Pizzas.FindAsync(id);
+    if (pizza is null)
+        return Results.NotFound();
+
+    pizza.NomEhod = updatepizza.NomEhod;
+    pizza.DescriptionEhod = updatepizza.DescriptionEhod;
+
+    await db.SaveChangesAsync();
+
+    return Results.NoContent();
+});
+
 
 app.Run();
