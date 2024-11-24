@@ -8,4 +8,5 @@ namespace PizzaStore.Models
         public string? NomEhod { get; set; }
         public string? DescriptionEhod { get; set; }
     }
+
 }
